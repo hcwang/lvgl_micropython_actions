@@ -16,12 +16,11 @@ jobs:
         REPO_BRANCH: main
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH lvgl_micropython 
     - name: complie source code
-      run: \
-        cd lvgl_micropython \ 
+      run: |
+        cd lvgl_micropython  
         python3 make.py esp32 BOARD=ESP32_GENERIC_S3 BOARD_VARIANT=SPIRAM_OCT --flash-size=16 DISPLAY=st7789  #USER_C_MODULE="/Users/joycode/esp32/esp-adf/micropython_adf/mod/micropython.cmake"
     - name: move firmware to target folder
-      run: \ 
-        find lvgl_micropython/target -type f - name "lvgl_micropy_ESP32_GENERIC_S3-SPIRAM_OCT-16.bin" | xargs -i mv -f {} ./artifact/
+      run:  find lvgl_micropython/target -type f - name "lvgl_micropy_ESP32_GENERIC_S3-SPIRAM_OCT-16.bin" | xargs -i mv -f {} ./artifact/
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
@@ -36,7 +35,7 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "RedMi_AX6000_${{ steps.currentdate.outputs.date }}"
+          automatic_release_tag: "ESP32-S3_N16R8_Firmware_${{ steps.currentdate.outputs.date }}"
           prerelease: True
           title: ESP32-S3_LVGL-MicroPython_${{ steps.currentdate.outputs.date }}
           files: |
